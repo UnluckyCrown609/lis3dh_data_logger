@@ -1,0 +1,35 @@
+/dts-v1/;
+/plugin/;
+
+/{
+ compatible = "brcm,bcm2835";
+
+ fragment@0 {
+   target = <&i2c1>;
+   __overlay__ {
+     #address-cells = <1>;
+     #size-cells = <0>;
+     status = "okay";
+
+   lis: accel@18 {
+     compatible = "st,lis3dh-accel";
+     reg = <0x18>;
+     #address-cells = <1>;
+     #size-cells = <0>;
+     #io-channel-cells = <1>;
+     #sampling_frequency = <1600>;
+
+     };
+   };
+ };
+
+ fragment@1 {
+  target-path = "/";
+  __overlay__ {
+   iiohwmonlis {
+     compatible = "iio_hwmon";
+     io-channels = <&lis 0>, <&lis 1>, <&lis 2>;
+     };
+   };
+ };
+};
